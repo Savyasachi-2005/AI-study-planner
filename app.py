@@ -83,7 +83,7 @@ subject = st.text_input("Subject:", key="subject")
 total_hours = st.text_input("Total study hours required:", key="hours")
 deadline = st.date_input("Deadline (YYYY-MM-DD):", key="deadline")
 
-# --- Generate Study Plan Button ---
+
 if st.button("Generate Study Plan"):
     if not api_key:
         st.warning("Please enter your OpenRouter API key in the sidebar.")
@@ -98,7 +98,15 @@ if st.button("Generate Study Plan"):
             st.warning("Please enter a valid, positive number for total study hours.")
             st.stop()
 
+        today = date.today()
+        days_left = (deadline - today).days + 1  # +1 to include today, remove +1 if exclusive
+
+        if days_left <= 0:
+            st.warning("The deadline must be after today. Please select a valid date.")
+            st.stop()
+
         deadline_str = deadline.strftime("%Y-%m-%d")
+        today_str = today.strftime("%Y-%m-%d")
         user_prompt = (
             f"Create a personalized study plan for the subject '{subject}'.\n"
             f"The user wants to complete a total of {total_hours_float} hours before the deadline {deadline_str}.\n"

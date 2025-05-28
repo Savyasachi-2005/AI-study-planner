@@ -3,23 +3,19 @@ import requests
 import json
 from datetime import datetime
 
+# --- Custom CSS for Dark Theme and Styling ---
 st.markdown(
     """
     <style>
-    /* Set dark background and light text */
     body, .stApp {
         background-color: #121212;
         color: #e0e0e0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    /* Style headers */
     h1, h2, h3 {
         color: #bb86fc;
         font-weight: 700;
     }
-
-    /* Input boxes and date picker styling */
     div.stTextInput > div > input, div.stDateInput > div > input {
         background-color: #1f1f1f;
         color: #e0e0e0;
@@ -28,8 +24,6 @@ st.markdown(
         padding: 10px;
         font-size: 16px;
     }
-
-    /* Style the button */
     div.stButton > button {
         background-color: #bb86fc;
         color: #121212;
@@ -43,24 +37,19 @@ st.markdown(
         cursor: pointer;
         margin-top: 12px;
     }
-
     div.stButton > button:hover {
         background-color: #9a65db;
     }
-
-    /* Box around the output plan */
     .plan-box {
         background-color: #1f1f1f;
         border: 1px solid #bb86fc;
         border-radius: 12px;
         padding: 20px;
         margin-top: 20px;
-        white-space: pre-wrap;  /* preserve line breaks */
+        white-space: pre-wrap;
         font-size: 16px;
         color: #d0d0d0;
     }
-
-    /* Center content and constrain width */
     .main > div {
         max-width: 700px;
         margin: auto;
@@ -70,34 +59,47 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# --- Sidebar for API Key ---
+with st.sidebar:
+    st.header("🔑 API Authentication")
+    api_key = st.text_input("Enter your OpenRouter API Key:", type="password", key="api_key")
+    if not api_key:
+        st.info("Please enter your API key to use the study planner.")
+
+# --- Main Page ---
 st.title("📘 AI Study Planner — Personalized Schedule Generator")
+st.write(
+    "Generate a personalized timetable for your studies. "
+    "Just enter your subject, total study hours, and your deadline."
+)
 
-# User inputs
-api_key = st.text_input("Enter your OpenRouter API Key:", type="password")
-subject = st.text_input("Enter the subject:")
-total_hours = st.text_input("Enter total study hours required:")
-deadline = st.date_input("Enter the deadline (YYYY-MM-DD):")
+# --- User Inputs (Main Content) ---
+subject = st.text_input("Subject:", key="subject")
+total_hours = st.text_input("Total study hours required:", key="hours")
+deadline = st.date_input("Deadline (YYYY-MM-DD):", key="deadline")
 
+# --- Generate Study Plan Button ---
 if st.button("Generate Study Plan"):
     if not api_key:
-        st.warning("Please enter your OpenRouter API key to proceed.")
-    elif not subject or not total_hours:
+        st.warning("Please enter your OpenRouter API key in the sidebar.")
+    elif not subject or not total_hours or not deadline:
         st.warning("Please fill in all fields!")
     else:
         try:
             total_hours_float = float(total_hours)
+            if total_hours_float <= 0:
+                raise ValueError
         except ValueError:
-            st.warning("Please enter a valid number for total study hours.")
+            st.warning("Please enter a valid, positive number for total study hours.")
             st.stop()
 
         deadline_str = deadline.strftime("%Y-%m-%d")
-
-        user_prompt = f"""
-Create a personalized study plan for the subject '{subject}'.
-The user wants to complete a total of {total_hours_float} hours before the deadline {deadline_str}.
-Distribute the hours effectively over the days and mention the daily time allocation.
-Also add breaks if needed and suggest tips to stay consistent.
-"""
+        user_prompt = (
+            f"Create a personalized study plan for the subject '{subject}'.\n"
+            f"The user wants to complete a total of {total_hours_float} hours before the deadline {deadline_str}.\n"
+            "Distribute the hours effectively over the days and mention the daily time allocation.\n"
+            "Also add breaks if needed and suggest tips to stay consistent."
+        )
 
         payload = {
             "model": "meta-llama/llama-4-maverick:free",
@@ -125,10 +127,17 @@ Also add breaks if needed and suggest tips to stay consistent.
                 reply = result["choices"][0]["message"]["content"].strip()
 
             st.subheader("📅 Your Personalized Study Plan:")
-            st.markdown(f'<div style="white-space: pre-wrap; background:#1f1f1f; padding:15px; border-radius:10px; border:1px solid #bb86fc; color:#d0d0d0;">{reply}</div>', unsafe_allow_html=True)
-
+            st.markdown(
+                f'<div class="plan-box">{reply}</div>',
+                unsafe_allow_html=True
+            )
         except requests.exceptions.HTTPError as http_err:
             st.error(f"HTTP error occurred: {http_err}")
             st.text(response.text)
         except Exception as e:
             st.error(f"An error occurred: {e}")
+
+# --- Optional: Helper text at the bottom of sidebar ---
+with st.sidebar:
+    st.markdown("---")
+    st.caption("Your API key is only stored in your session and never sent elsewhere except to OpenRouter for generating your plan.")

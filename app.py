@@ -77,6 +77,7 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
+st.title("📘 AI Study Planner — Personalized Schedule Generator")
 # --- User Inputs (Main Content) ---
 subject = st.text_input("Subject:", key="subject")
 total_hours = st.text_input("Total study hours required:", key="hours")

@@ -7,58 +7,51 @@ from datetime import datetime
 st.markdown(
     """
     <style>
-    body, .stApp {
-        background-color: #121212;
-        color: #e0e0e0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* ... [existing CSS] ... */
+    .plan-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 32px;
+        margin-bottom: 4px;
     }
-    h1, h2, h3 {
+    .plan-box-enhanced {
+        background: linear-gradient(135deg, #26243e 0%, #1f1f1f 100%);
+        border: 2px solid #bb86fc;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px 0 rgba(187,134,252,0.10);
+        padding: 28px 22px 28px 22px;
+        margin-top: 12px;
+        margin-bottom: 12px;
+        font-size: 17px;
+        line-height: 1.7;
+        color: #f3eefd;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        transition: box-shadow 0.2s;
+    }
+    .plan-box-enhanced strong {
         color: #bb86fc;
         font-weight: 700;
     }
-    div.stTextInput > div > input, div.stDateInput > div > input {
-        background-color: #1f1f1f;
-        color: #e0e0e0;
-        border: 1px solid #bb86fc;
-        border-radius: 8px;
-        padding: 10px;
-        font-size: 16px;
-    }
-    div.stButton > button {
+    .copy-btn {
         background-color: #bb86fc;
         color: #121212;
-        font-weight: 700;
-        padding: 12px 24px;
-        border-radius: 12px;
         border: none;
-        transition: background-color 0.3s ease;
-        width: 100%;
-        font-size: 18px;
-        cursor: pointer;
-        margin-top: 12px;
-    }
-    div.stButton > button:hover {
-        background-color: #9a65db;
-    }
-    .plan-box {
-        background-color: #1f1f1f;
-        border: 1px solid #bb86fc;
-        border-radius: 12px;
-        padding: 20px;
-        margin-top: 20px;
-        white-space: pre-wrap;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: bold;
         font-size: 16px;
-        color: #d0d0d0;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: background 0.2s;
     }
-    .main > div {
-        max-width: 700px;
-        margin: auto;
+    .copy-btn:hover {
+        background: #9a65db;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
-
 # --- Sidebar for API Key ---
 with st.sidebar:
     st.header("🔑 API Authentication")

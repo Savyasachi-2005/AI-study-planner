@@ -73,7 +73,8 @@ streamlit run app.py
 
 ## 📝 Example
 
-![Example Screenshot](https://user-images.githubusercontent.com/your-screenshot-url.png)
+![Example Screenshot](Screenshot%20from%202025-05-28%2009-57-21.png)
+
 
 ---
 

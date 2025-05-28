@@ -1,6 +1,6 @@
 # 📘 AI Study Planner — Personalized Schedule Generator
 
-![AI Study Planner Banner](https://user-images.githubusercontent.com/your-banner-url.png)
+
 
 A modern, beautiful Streamlit web app that generates a **personalized study plan** based on your subject, total study hours, and deadline. Powered by OpenRouter's AI models, it helps you break down your goals into actionable daily schedules — complete with breaks and tips to stay consistent.
 

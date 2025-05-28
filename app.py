@@ -59,12 +59,23 @@ with st.sidebar:
     if not api_key:
         st.info("Please enter your API key to use the study planner.")
 
-# --- Main Page ---
-st.title("📘 AI Study Planner — Personalized Schedule Generator")
-st.write(
-    "Generate a personalized timetable for your studies. "
-    "Just enter your subject, total study hours, and your deadline."
-)
+    st.markdown("---")
+    st.markdown(
+        """
+        ### ℹ️ How to get your OpenRouter API Key
+
+        1. [Go to OpenRouter API Keys page](https://openrouter.ai/keys) (log in or sign up if needed).
+        2. Click **“Create a new key”**.
+        3. Copy the generated key and paste it above.
+
+        Your API key is **only stored in your session** and sent directly and securely to OpenRouter.
+
+        <span style="font-size: 0.94em; color: #bb86fc;">
+            Need help? See the <a href="https://openrouter.ai/docs" target="_blank" style="color:#bb86fc; text-decoration:underline;">OpenRouter Docs</a>.
+        </span>
+        """,
+        unsafe_allow_html=True,
+    )
 
 # --- User Inputs (Main Content) ---
 subject = st.text_input("Subject:", key="subject")

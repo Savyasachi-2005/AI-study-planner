@@ -107,9 +107,7 @@ if st.button("Generate Study Plan"):
 
         deadline_str = deadline.strftime("%Y-%m-%d")
         today_str = today.strftime("%Y-%m-%d")
-        user_prompt = f"Create a personalized study plan for the subject '{subject}'. Provide a brief overview or key information about
-        the subject '{subject}' to give some context. The user wants to complete a total of {total_hours_float} hours before the deadline {deadline_str}. Today is {today_str}. Distribute the hours effectively from today 
-        to the deadline and mention the daily time allocation. Also add breaks if needed and suggest tips to stay consistent."
+        user_prompt = f"Create a personalized study plan for the subject '{subject}'. Provide a brief overview or key information about the subject '{subject}' to give some context. The user wants to complete a total of {total_hours_float} hours before the deadline {deadline_str}. Today is {today_str}. Distribute the hours effectively from today to the deadline and mention the daily time allocation. Also add breaks if needed and suggest tips to stay consistent."
 
 
 
